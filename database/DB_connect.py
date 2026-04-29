@@ -12,7 +12,7 @@ class DBConnect:
         raise RuntimeError('Do not create an instance, use the class method get_connection()!')
 
     @classmethod
-    def get_connection(cls, pool_name = "my_pool", pool_size = 3) -> mysql.connector.pooling.PooledMySQLConnection:
+    def get_connection(cls, pool_name = "my_pool", pool_size = 3) -> mysql.connector.pooling.PooledMySQLConnection | None:
         """Factory method for lending connections from the pool. It also initializes the pool
         if it does not exist
         :param pool_name: name of the pool
@@ -29,12 +29,10 @@ class DBConnect:
             except mysql.connector.Error as err:
                 if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                     print("Something is wrong with your user name or password")
-                    return None
                 elif err.errno == errorcode.ER_BAD_DB_ERROR:
                     print("Database does not exist")
-                    return None
                 else:
                     print(err)
-                    return None
+                return None
         else:
             return cls._cnxpool.get_connection()

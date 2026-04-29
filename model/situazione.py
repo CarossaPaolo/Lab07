@@ -1,5 +1,6 @@
 import datetime
 from dataclasses import dataclass
+# from json.decoder import NaN
 
 
 @dataclass
